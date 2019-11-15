@@ -1,43 +1,26 @@
 package com.company;
 
-import edu.duke.FileResource;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-
 public class Main {
 
     public static void main(String[] args) {
+
         WhichCountriesExport csvExport = new WhichCountriesExport();
-        FileResource fr = new FileResource("exportdata.csv");
-        CSVParser parser = fr.getCSVParser();
-
-        // To answer Coursera Quiz
-        // System.out.println(csvExport.numberOfExporters(parser,"gold"));
-        // System.out.println(csvExport.countryInfo(parser, "Nauru"));
-        // csvExport.bigExporters(parser, "$999,999,999,999");
-
-
         CSVMax csvMax = new CSVMax();
-        csvMax.testHottestHourInDay();
-        // csvMax.testHottestInManyDays();
-
         CSVMin csvMin = new CSVMin();
-        csvMin.testColdestHourInDay();
-
         CSVHumidity csvHumdity = new CSVHumidity();
-        // csvHumdity.testLowestHudidityInFile();
-        // csvHumdity.lowestHumidityInManyDays();
-
         CSVAverage csvAverage = new CSVAverage();
-        // csvAverage.testAverageTemperature();
-        csvAverage.testAverageTemperatureWithHighHumidityInFile();
 
+        // Facts about my birthday
+        System.out.println("Temperature statistics on the 15th of August 2014:");
+        csvMin.testColdestHourInDay();
+        csvMax.testHottestHourInDay();
+        csvHumdity.testLowestHudidityInFile();
+        csvAverage.testAverageTemperature();
 
+        System.out.println("<----------------->");
 
-        //CSVRecord coldest = csvMax.coldestInManyDays();
-        //System.out.println("The coldest temperature was " + coldest.get("Temperature") + " at " + coldest.get("DateUTC"));
-        // csvMin.fileWithColdestTemperature();
-        // System.out.println(fileName);
-
+        // Export statistics
+        System.out.println("These are some export facts:");
+        csvExport.tests();
     }
 }

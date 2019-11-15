@@ -5,6 +5,8 @@ import org.apache.commons.csv.*;
 import java.io.*;
 
 public class CSVMax {
+
+    // Function to return the hottest temperature in a file
     public CSVRecord hottestHourInFile(CSVParser parser){
         CSVRecord largestSoFar = null;
 
@@ -14,6 +16,7 @@ public class CSVMax {
         return largestSoFar;
     }
 
+    // Function to return the hottest temperature from many days
     public CSVRecord hottestInManyDays(){
         CSVRecord largestSoFar = null;
         DirectoryResource dr = new DirectoryResource();
@@ -26,6 +29,7 @@ public class CSVMax {
         return largestSoFar;
     }
 
+    // Function to return the hottest temperature of two
     private CSVRecord getLargestOfTwo(CSVRecord largestSoFar, CSVRecord currentRow){
         if(largestSoFar == null){
             largestSoFar = currentRow;
@@ -40,52 +44,11 @@ public class CSVMax {
         return largestSoFar;
     }
 
-    private CSVRecord getSmallestOfTwo(CSVRecord smallestSoFar, CSVRecord currentRow){
-        if(smallestSoFar == null){
-            smallestSoFar = currentRow;
-        } else {
-            double currentTemp = Double.parseDouble(currentRow.get("TemperatureF"));
-            double largestTemp = Double.parseDouble(smallestSoFar.get("TemperatureF"));
-
-            if(currentTemp < largestTemp){
-                smallestSoFar = currentRow;
-            }
-        }
-        return smallestSoFar;
-    }
-
-    public CSVRecord coldestHourInFile(CSVParser parser){
-        CSVRecord coldestSoFar = null;
-
-        for(CSVRecord currentRow : parser){
-            coldestSoFar = getSmallestOfTwo(coldestSoFar, currentRow);
-        }
-        return coldestSoFar;
-    }
-
-    public CSVRecord coldestInManyDays(){
-        CSVRecord smallestSoFar = null;
-        DirectoryResource dr = new DirectoryResource();
-
-        for(File f : dr.selectedFiles()){
-            FileResource fr = new FileResource(f);
-            CSVRecord currentRow = hottestHourInFile(fr.getCSVParser());
-            smallestSoFar = getSmallestOfTwo(smallestSoFar, currentRow);
-        }
-        return smallestSoFar;
-    }
-
     // Tests
     public void testHottestHourInDay(){
-        FileResource fr = new FileResource("data/2015/weather-2015-01-01.csv");
+        FileResource fr = new FileResource("data/2014/weather-2014-08-15.csv");
         CSVRecord largest = hottestHourInFile(fr.getCSVParser());
-        System.out.println("Hottest temperature was " + largest.get("TemperatureF") + " at " + largest.get("TimeEST"));
-    }
-
-    public void testColdestHourInDay(){
-        FileResource fr = new FileResource("data/2015/weather-2015-01-01.csv");
-        CSVRecord smallest = coldestHourInFile(fr.getCSVParser());
-        System.out.println("Coldest temperature was " + smallest.get("TemperatureF") + " at " + smallest.get("TimeEST"));
+        System.out.println("Hottest temperature was " + largest.get("TemperatureF") + " at " + largest.get("TimeEDT"));
     }
 
     public void testHottestInManyDays(){
